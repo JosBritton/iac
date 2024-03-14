@@ -19,14 +19,6 @@ locals {
   }
 
   template_name = "packer-debian12-genericcloud"
-
-  # host part IP address offset from subnet e.g. 16 = 10.0.0.0/24 -> 10.0.0.16
-  # later, use index of root module count to increment from offset to partition the subnet
-  ip_host_offset = {
-    envoylb           = 16
-    k8s               = 32
-    k8swork           = 48
-  }
 }
 
 provider "proxmox" {
@@ -100,7 +92,9 @@ module "k8s" {
   name   = "k8s${count.index + 1}"
   disk_size_gigabytes = 48
   net = {
-    address = "dhcp"
+    address      = cidrhost("10.0.12.0/24", count.index + 11)
+    prefixlength = 24
+    gateway      = "10.0.12.1"
   }
   count        = 5
   tag          = "k8s"
