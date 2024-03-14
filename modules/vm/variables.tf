@@ -79,3 +79,8 @@ variable "startuporder" {
   type = number
   default = 1000
 }
+
+variable "vlan" {
+  type    = number
+  default = -1  # untagged
+}

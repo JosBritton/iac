@@ -75,7 +75,7 @@ resource "proxmox_vm_qemu" "vm" {
     mtu       = 0
     queues    = 0
     rate      = 0
-    tag       = -1
+    tag       = var.vlan
   }
 
   serial {

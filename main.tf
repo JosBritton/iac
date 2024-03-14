@@ -54,6 +54,7 @@ module "dns" {
   tag            = "dns"
   ciuser         = var.ciuser
   startuporder   = count.index + 1
+  vlan           = 3
 }
 
 module "dhcp" {
@@ -71,6 +72,7 @@ module "dhcp" {
   tag            = "dhcp"
   ciuser         = var.ciuser
   startuporder   = count.index + 10
+  vlan           = 3
 }
 
 module "lb" {
@@ -88,6 +90,7 @@ module "lb" {
   tag          = "lb"
   ciuser       = var.ciuser
   startuporder = count.index + 25
+  vlan         = 3
 }
 
 module "k8s" {
@@ -103,4 +106,5 @@ module "k8s" {
   tag          = "k8s"
   ciuser       = var.ciuser
   startuporder = count.index + 1000
+  vlan         = 12
 }
