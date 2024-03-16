@@ -31,9 +31,11 @@ provider "proxmox" {
 ######
 ### root modules
 ######
+
+# 2048 * 4 = 8.0 GiB total
 module "dns" {
   source = "./modules/vm"
-  memory = 3584
+  memory = 2048
   clone  = local.template_name
   name   = "ns${count.index + 1}"
   disk_size_gigabytes = 10
@@ -50,9 +52,10 @@ module "dns" {
   nameserver   = "1.1.1.1 1.0.0.1"
 }
 
+# 2048 * 2 = 4.0 GiB
 module "dhcp" {
   source = "./modules/vm"
-  memory = 3584
+  memory = 2048
   clone  = local.template_name
   name   = "dhcp${count.index + 1}"
   disk_size_gigabytes = 10
@@ -69,9 +72,10 @@ module "dhcp" {
   nameserver   = "10.0.3.10 10.0.3.11"
 }
 
+# 2048 * 2 = 4.0 GiB
 module "lb" {
   source = "./modules/vm"
-  memory = 3584
+  memory = 1792
   clone  = local.template_name
   name   = "lb${count.index + 1}"
   disk_size_gigabytes = 10
@@ -88,9 +92,10 @@ module "lb" {
   nameserver   = "10.0.3.10 10.0.3.11"
 }
 
+# 7168 * 5 = 35.0 GiB
 module "k8s" {
   source = "./modules/vm"
-  memory = 4096
+  memory = 7168
   clone  = local.template_name
   name   = "k8s${count.index + 1}"
   disk_size_gigabytes = 48
