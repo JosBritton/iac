@@ -35,7 +35,7 @@ provider "proxmox" {
 # 2048 * 4 = 8.0 GiB total
 module "dns" {
   source = "./modules/vm"
-  memory = 2048
+  memory = 1536
   clone  = local.template_name
   name   = "ns${count.index + 1}"
   disk_size_gigabytes = 10
@@ -55,7 +55,7 @@ module "dns" {
 # 2048 * 2 = 4.0 GiB
 module "dhcp" {
   source = "./modules/vm"
-  memory = 2048
+  memory = 1536
   clone  = local.template_name
   name   = "dhcp${count.index + 1}"
   disk_size_gigabytes = 10
@@ -75,7 +75,7 @@ module "dhcp" {
 # 2048 * 2 = 4.0 GiB
 module "lb" {
   source = "./modules/vm"
-  memory = 1792
+  memory = 1536
   clone  = local.template_name
   name   = "lb${count.index + 1}"
   disk_size_gigabytes = 10
@@ -98,7 +98,7 @@ module "k8s" {
   memory = 7168
   clone  = local.template_name
   name   = "k8s${count.index + 1}"
-  disk_size_gigabytes = 48
+  disk_size_gigabytes = 200
   net = {
     address      = cidrhost("10.0.12.0/24", count.index + 11)
     prefixlength = 24
