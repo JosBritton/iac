@@ -22,6 +22,7 @@ resource "proxmox_vm_qemu" "vm" {
   sockets          = 1
   cpu              = "host"  # host disables live migration
   memory           = var.memory
+  balloon          = var.memory
   scsihw           = "virtio-scsi-single"
   qemu_os          = "l26"
   boot             = "order=scsi0"
