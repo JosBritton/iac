@@ -89,9 +89,26 @@ module "lb" {
   nameserver   = "10.0.3.10 10.0.3.11"
 }
 
+module "bt" {
+  source = "./modules/vm"
+  memory = 2048
+  clone  = local.template_name
+  name   = "bt${count.index + 1}"
+  disk_size_gigabytes = 28
+  net = {
+    address      = "dhcp"
+  }
+  count        = 1
+  tag          = "bt"
+  ciuser       = var.ciuser
+  startuporder = count.index + 30
+  vlan         = 3
+  nameserver   = "10.0.3.10 10.0.3.11"
+}
+
 module "k8s" {
   source = "./modules/vm"
-  memory = 7168
+  memory = 6144
   clone  = local.template_name
   name   = "k8s${count.index + 1}"
   disk_size_gigabytes = 200
