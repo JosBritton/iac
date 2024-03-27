@@ -18,7 +18,7 @@ locals {
     pm_api_token_secret = var.pm_api_token_secret 
   }
 
-  template_name = "debian12genericcloud"
+  template_name = "debian12v3"
 }
 
 provider "proxmox" {
