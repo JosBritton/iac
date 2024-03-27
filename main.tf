@@ -18,7 +18,7 @@ locals {
     pm_api_token_secret = var.pm_api_token_secret 
   }
 
-  template_name = "packer-debian12-genericcloud"
+  template_name = "debian12genericcloud"
 }
 
 provider "proxmox" {
@@ -108,10 +108,10 @@ module "bt" {
 
 module "k8s" {
   source = "./modules/vm"
-  memory = 6144
+  memory = 5120
   clone  = local.template_name
   name   = "k8s${count.index + 1}"
-  disk_size_gigabytes = 200
+  disk_size_gigabytes = 28
   net = {
     address      = cidrhost("10.0.12.0/24", count.index + 11)
     prefixlength = 24
