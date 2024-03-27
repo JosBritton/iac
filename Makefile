@@ -1,4 +1,4 @@
-PROXMOX_PARALLELISM=4
+PROXMOX_PARALLELISM=3
 
 .terraform/modules/modules.json: main.tf
 	terraform init
