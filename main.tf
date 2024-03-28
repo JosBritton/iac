@@ -62,7 +62,7 @@ module "dhcp" {
     prefixlength = 24
     gateway      = "10.0.3.1"
   }
-  count          = 2
+  count          = 1
   tag            = "dhcp"
   ciuser         = var.ciuser
   startuporder   = count.index + 10
