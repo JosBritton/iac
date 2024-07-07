@@ -98,3 +98,8 @@ variable "vmid" {
   type = number
   default = null
 }
+
+variable "needs_migratable" {
+  type = bool
+  default = false
+}

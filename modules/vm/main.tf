@@ -34,9 +34,11 @@ resource "proxmox_vm_qemu" "vm" {
   vmid             = var.vmid
   onboot           = true
   vm_state         = "running"
-  cores            = local.node_hardware[var.node].cores
-  sockets          = local.node_hardware[var.node].sockets
-  cpu              = "host"  # host disables live migration
+
+  cores            = var.needs_migratable ? min([for _, hw in local.node_hardware: hw.cores ]...) : local.node_hardware[var.node].cores
+  sockets          = var.needs_migratable ? min([for _, hw in local.node_hardware: hw.sockets ]...) : local.node_hardware[var.node].sockets
+  cpu              = var.needs_migratable ? "x86-64-v3" : "host"
+
   memory           = var.memory
   machine          = "q35"
   balloon          = var.memory

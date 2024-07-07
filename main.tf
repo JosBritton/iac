@@ -116,6 +116,7 @@ module "dhcp" {
   for_each = { for i, vm in local.vm.dhcp : i => vm }
   source = "./modules/vm"
   memory = 1024
+  needs_migratable = true
   clone  = local.template_name
   name   = each.value.name
   node   = each.value.node
@@ -158,6 +159,7 @@ module "bt" {
   for_each = { for i, vm in local.vm.bt : i => vm }
   source = "./modules/vm"
   memory = 2048
+  needs_migratable = true
   clone  = local.template_name
   name   = each.value.name
   node   = each.value.node
@@ -179,6 +181,7 @@ module "k8s" {
   for_each = { for i, vm in local.vm.k8s : i => vm }
   source = "./modules/vm"
   memory = 5120
+  needs_migratable = true
   clone  = local.template_name
   name   = each.value.name
   node   = each.value.node
