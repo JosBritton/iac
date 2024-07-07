@@ -30,8 +30,9 @@ resource "proxmox_vm_qemu" "vm" {
   tags             = "${var.tag};terraform"
 
   ciuser                  = "${var.ciuser}"
+  # https://github.com/Telmate/terraform-provider-proxmox/pull/1049
+  ciupgrade               = false
   os_type                 = "cloud-init"
-  cloudinit_cdrom_storage = "vmstore"
 
   ipconfig0  = var.net.address == "dhcp" ? "ip=dhcp" : "ip=${var.net.address}/${var.net.prefixlength},gw=${var.net.gateway}"
   nameserver = var.nameserver
@@ -49,6 +50,13 @@ resource "proxmox_vm_qemu" "vm" {
   }
 
   disks {
+    ide {
+      ide2 {
+        cloudinit {
+          storage = "vmstore"
+        }
+      }
+    }
     scsi {
       scsi0 {
         disk {

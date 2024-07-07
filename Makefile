@@ -1,5 +1,6 @@
+export DEVMODE=1
 .terraform/modules/modules.json: main.tf
-	terraform init
+	@[ ! -z $(DEVMODE) ] || terraform init
 
 .PHONY: apply
 apply: .terraform/modules/modules.json
