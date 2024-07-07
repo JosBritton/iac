@@ -60,6 +60,14 @@ resource "proxmox_vm_qemu" "vm" {
   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINuLBOmsqpSkruNXNnFiup0AbQwat/AtfFgq4RJvEs7
   EOF
 
+  lifecycle {
+    # prevent_destroy = true
+    ignore_changes = [
+      clone,
+      full_clone,
+    ]
+  }
+
   # make sure connection is successful before continuing
   connection {
     host    = var.net.address == "dhcp" ? self.ssh_host : var.net.address
