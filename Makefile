@@ -5,6 +5,10 @@
 apply: .terraform/modules/modules.json
 	terraform apply
 
+.PHONY: plan
+plan: .terraform/modules/modules.json
+	terraform plan
+
 .PHONY: clean
 clean:
 	rm -f terraform.tfstate
