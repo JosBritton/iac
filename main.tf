@@ -165,7 +165,7 @@ module "lb" {
 module "bt" {
   for_each = { for i, vm in local.vm.bt : i => vm }
   source = "./modules/vm"
-  memory = 2048
+  memory = 6144
   needs_migratable = true
   clone  = local.template_name
   name   = each.value.name
@@ -188,7 +188,7 @@ module "bt" {
 module "k8s" {
   for_each = { for i, vm in local.vm.k8s : i => vm }
   source = "./modules/vm"
-  memory = 5120
+  memory = 8192
   needs_migratable = true
   clone  = local.template_name
   name   = each.value.name
