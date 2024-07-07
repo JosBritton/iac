@@ -66,6 +66,20 @@ locals {
         node = "pve1"  # pve3
       },
     ]
+    etcd = [
+      {
+        name = "etcd1"
+        node = "pve1"
+      },
+      {
+        name = "etcd2"
+        node = "pve2"
+      },
+      {
+        name = "etcd3"
+        node = "pve1"  # pve3
+      }
+    ]
   }
 }
 
@@ -179,5 +193,27 @@ module "k8s" {
   ciuser       = var.ciuser
   startuporder = each.key + 1000
   vlan         = 12
+  nameserver   = "10.0.3.10 10.0.3.11"
+}
+
+module "etcd" {
+  for_each = { for i, vm in local.vm.etcd : i => vm }
+  source = "./modules/vm"
+  memory = 1024
+  needs_migratable = true
+  clone  = local.template_name
+  name   = each.value.name
+  node   = each.value.node
+  vmid   = lookup(each.value, "vmid", each.key + 601)
+  disk_size_gigabytes = 10
+  net = {
+    address      = cidrhost("10.0.12.0/24", each.key + 21)
+    prefixlength = 24
+    gateway      = "10.0.12.1"
+  }
+  tag            = "etcd"
+  ciuser         = var.ciuser
+  startuporder   = each.key + 1
+  vlan           = 12
   nameserver   = "10.0.3.10 10.0.3.11"
 }
