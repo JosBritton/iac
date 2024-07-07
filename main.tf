@@ -30,6 +30,11 @@ locals {
       {
         name = "dhcp1"
         node = "pve2"
+        # additional_disks = {
+        #   scsi2 = [{
+        #     size_gigabytes = 4
+        #   }]
+        # }
       }
     ]
     lb = [
@@ -121,6 +126,7 @@ module "dhcp" {
   name   = each.value.name
   node   = each.value.node
   vmid   = lookup(each.value, "vmid", each.key + 201)
+  additional_disks    = lookup(each.value, "additional_disks", {})
   disk_size_gigabytes = 10
   net = {
     address      = cidrhost("10.0.3.0/24", each.key + 16)
@@ -142,6 +148,7 @@ module "lb" {
   name   = each.value.name
   node   = each.value.node
   vmid   = lookup(each.value, "vmid", each.key + 301)
+  additional_disks    = lookup(each.value, "additional_disks", {})
   disk_size_gigabytes = 10
   net = {
     address      = cidrhost("10.0.3.0/24", each.key + 8)
@@ -164,6 +171,7 @@ module "bt" {
   name   = each.value.name
   node   = each.value.node
   vmid   = lookup(each.value, "vmid", each.key + 401)
+  additional_disks    = lookup(each.value, "additional_disks", {})
   disk_size_gigabytes = 10
   net = {
     address      = cidrhost("10.0.3.0/24", each.key + 24)
@@ -186,6 +194,7 @@ module "k8s" {
   name   = each.value.name
   node   = each.value.node
   vmid   = lookup(each.value, "vmid", each.key + 501)
+  additional_disks    = lookup(each.value, "additional_disks", {})
   disk_size_gigabytes = 10
   net = {
     address      = cidrhost("10.0.12.0/24", each.key + 11)
@@ -208,6 +217,7 @@ module "etcd" {
   name   = each.value.name
   node   = each.value.node
   vmid   = lookup(each.value, "vmid", each.key + 601)
+  additional_disks    = lookup(each.value, "additional_disks", {})
   disk_size_gigabytes = 10
   net = {
     address      = cidrhost("10.0.12.0/24", each.key + 21)

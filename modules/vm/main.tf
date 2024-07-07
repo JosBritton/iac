@@ -126,6 +126,29 @@ resource "proxmox_vm_qemu" "vm" {
           storage = local.node_hardware[var.node].vmdisk
         }
       }
+      # optional
+      dynamic "scsi2" {
+        for_each = var.additional_disks.scsi2[*]
+        content {
+          dynamic "disk" {
+            for_each = var.additional_disks.scsi2[*]
+            iterator = d
+            content {
+              asyncio = "io_uring"
+              replicate = true
+              backup = true
+              cache = "none"
+              discard = true
+              emulatessd = true
+              format = "raw"
+              iothread = true
+              readonly = false
+              size = d.value.size_gigabytes
+              storage = local.node_hardware[var.node].vmdisk
+            }
+          }
+        }
+      }
     }
   }
 

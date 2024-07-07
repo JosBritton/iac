@@ -99,6 +99,15 @@ variable "vmid" {
   default = null
 }
 
+variable "additional_disks" {
+  type = object({
+    scsi2 = optional(list(object({
+      size_gigabytes = optional(string)
+    })), [])
+  })
+  default = {}
+}
+
 variable "needs_migratable" {
   type = bool
   default = false
