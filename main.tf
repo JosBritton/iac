@@ -10,22 +10,14 @@ terraform {
 }
 
 locals {
-  ### REQUIRED SECRETS, define in *.auto.tfvars
-  secrets = {
-    tsig_key            = var.tsig_key
-    pm_api_url          = var.pm_api_url
-    pm_api_token_id     = var.pm_api_token_id
-    pm_api_token_secret = var.pm_api_token_secret 
-  }
-
   template_name = "debian12v3"
 }
 
 provider "proxmox" {
   pm_tls_insecure     = false
-  pm_api_url          = local.secrets.pm_api_url
-  pm_api_token_id     = local.secrets.pm_api_token_id
-  pm_api_token_secret = local.secrets.pm_api_token_secret
+  pm_api_url          = var.pm_api_url
+  pm_api_token_id     = var.pm_api_token_id
+  pm_api_token_secret = var.pm_api_token_secret
 }
 
 ######
