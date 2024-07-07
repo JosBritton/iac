@@ -22,6 +22,7 @@ resource "proxmox_vm_qemu" "vm" {
   sockets          = 1
   cpu              = "host"  # host disables live migration
   memory           = var.memory
+  machine          = "q35"
   balloon          = var.memory
   scsihw           = "virtio-scsi-single"
   qemu_os          = "l26"
@@ -50,13 +51,6 @@ resource "proxmox_vm_qemu" "vm" {
   }
 
   disks {
-    ide {
-      ide2 {
-        cloudinit {
-          storage = "vmstore"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
@@ -70,6 +64,11 @@ resource "proxmox_vm_qemu" "vm" {
           iothread = true
           readonly = false
           size = var.disk_size_gigabytes
+          storage = "vmstore"
+        }
+      }
+      scsi1 {
+        cloudinit {
           storage = "vmstore"
         }
       }
