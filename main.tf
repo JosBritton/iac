@@ -195,7 +195,7 @@ module "k8s" {
   node   = each.value.node
   vmid   = lookup(each.value, "vmid", each.key + 501)
   additional_disks    = lookup(each.value, "additional_disks", {})
-  disk_size_gigabytes = 10
+  disk_size_gigabytes = 30
   net = {
     address      = cidrhost("10.0.12.0/24", each.key + 11)
     prefixlength = 24
