@@ -82,5 +82,9 @@ variable "startuporder" {
 
 variable "vlan" {
   type    = number
-  default = -1  # untagged
+  validation {
+    condition     = var.vlan >= -1 && var.vlan <= 4096 && var.vlan != 0 && var.vlan != 1 && var.vlan != 4095
+    error_message = "VLAN ID must be in range (-1,2-4094,4096). To disable VLAN tagging, set to -1."
+  }
+
 }
