@@ -88,3 +88,13 @@ variable "vlan" {
   }
 
 }
+
+variable "node" {
+  type = string
+  description = "Specify target Proxmox node."
+}
+
+variable "vmid" {
+  type = number
+  default = null
+}

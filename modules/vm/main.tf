@@ -9,17 +9,33 @@ terraform {
   }
 }
 
+locals {
+  node_hardware = {
+    pve1 = {
+      vmdisk = "tank"
+      cores = 8
+      sockets = 1
+    }
+    pve2 = {
+      vmdisk = "tank"
+      cores = 12
+      sockets = 1
+    }
+  }
+}
+
 resource "proxmox_vm_qemu" "vm" {
   name             = var.name
   clone            = var.clone
   agent            = 1
   full_clone       = true
   automatic_reboot = false
-  target_node      = "pve1"
+  target_node      = var.node
+  vmid             = var.vmid
   onboot           = true
   vm_state         = "running"
-  cores            = 8
-  sockets          = 1
+  cores            = local.node_hardware[var.node].cores
+  sockets          = local.node_hardware[var.node].sockets
   cpu              = "host"  # host disables live migration
   memory           = var.memory
   machine          = "q35"
@@ -64,12 +80,12 @@ resource "proxmox_vm_qemu" "vm" {
           iothread = true
           readonly = false
           size = var.disk_size_gigabytes
-          storage = "vmstore"
+          storage = local.node_hardware[var.node].vmdisk
         }
       }
       scsi1 {
         cloudinit {
-          storage = "vmstore"
+          storage = local.node_hardware[var.node].vmdisk
         }
       }
     }
